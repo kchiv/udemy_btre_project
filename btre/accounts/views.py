@@ -35,7 +35,7 @@ def register(request):
 					# Login after register
 					auth.login(request, user)
 					messages.success(request, 'You are now registered and logged in')
-					return redirect('index')
+					return redirect('dashboard')
 		else:
 			messages.error(request, 'Passwords do not match')
 			return redirect('register')
@@ -62,7 +62,10 @@ def login(request):
 		return render(request, 'accounts/login.html')
 
 def logout(request):
-	return redirect('index')
+	if request.method == 'POST':
+		auth.logout(request)
+		messages.success(request, 'You are now logged out')
+		return redirect('index')
 
 def dashboard(request):
 	return render(request, 'accounts/dashboard.html')
